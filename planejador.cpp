@@ -146,33 +146,52 @@ void Planejador::ler(const std::string& arq_pontos,
     //    separadores no final da string e testa o cabecalho:
     //    "ID;Nome;Latitude;Longitude"
     //    (Em caso de erro ou valor lido diferente, codigo 2)
+    stream_inPontos >> ws; // consome enventuais delimitadores
     getline(stream_inPontos, cabecalho);
+    
     if (stream_inPontos.fail() || cabecalho != "ID;Nome;Latitude;Longitude") throw 2;
-
-    //    Consome os separadores apos o cabecalho
+	stream_inPontos >> ws;//    Consome os separadores apos o cabecalho
+	
     // 3) Enquanto o arquivo nao acabar (eof), repita a leitura de cada um dos Pontos:
+    while (!stream_inPontos.eof()) {
+    	Ponto p;
+    	char c;
     //    | 3.1) Leh a ID e elimina eventuais separadores no final da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 3)
     //    |      O teste se a ID eh valida serah feito ao testar o Ponto
+    	getline(stream_inPontos, p.id, ';');
+    	if (!stream_inPontos || p.id == "" ) throw 3;
     //    | 3.2) Consome os separadores, leh o nome e elimina eventuais separadores no final
     //    |      da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 4)
     //    |      O teste se o nome eh valido serah feito ao testar o Ponto
+    	
+		getline(stream_inPontos, p.nome, ';');
+		if (!stream_inPontos || p.nome == "") throw 4;
     //    | 3.3) Leh a latitude
     //    |      (Em caso de erro, codigo 5)
     //    |      O teste se a latitude eh valida serah feito ao testar o Ponto
+    	getline(stream_inPontos, p.latitude, ";");
+    	if (!stream_inPontos || p.latitude == "") throw 5;
     //    | 3.4) Leh o caractere ';'
     //    |      (Em caso de erro ou valor lido diferente, codigo 6)
+    	c = stream_inPontos.get();
+    	if (!stream_inPontos || c != ';') throw 6;
+    	
     //    | 3.5) Leh a longitude
     //    |      (Em caso de erro, codigo 7)
     //    |      O teste se a longitude eh valida serah feito ao testar o Ponto
+    	getline(stream_inPontos, p.longitude);
+    	if (!stream_inPontos || p.longitude == "") throw 7;
     //    | 3.6) Consome os separadores apos o Ponto
+    	streeam_inPontos >> ws;
     //    | 3.7) Testa se o Ponto com os parametros lidos eh valido
     //    |      (Em caso de erro, codigo 8)
     //    | 3.8) Testa que nao existe Ponto com a mesma ID no vetor temporario
     //    |      de Pontos lidos ateh agora
     //    |      (Em caso de erro, codigo 9)
     //    | 3.9) Insere o Ponto lido no vetor temporario de Pontos
+	}
     // 4) Se nao foi lido nenhum Ponto, gera erro (codigo 10)
     // 5) Fecha o arquivo de Pontos
     /* ***********  /
