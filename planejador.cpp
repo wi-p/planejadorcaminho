@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm> // find(), sort(), etc
+#include <utility>
 /* ACRESCENTE SE NECESSARIO */
 
 
@@ -157,7 +158,8 @@ void Planejador::ler(const std::string& arq_pontos,
     // 3) Enquanto o arquivo nao acabar (eof), repita a leitura de cada um dos Pontos:
     while (!stream_inPontos.eof()) {
     	Ponto p;
-    	string
+    	char c;
+    	
     //    | 3.1) Leh a ID e elimina eventuais separadores no final da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 3)
     //    |      O teste se a ID eh valida serah feito ao testar o Ponto
@@ -199,7 +201,7 @@ void Planejador::ler(const std::string& arq_pontos,
     //    | 3.8) Testa que nao existe Ponto com a mesma ID no vetor temporario
     //    |      de Pontos lidos ateh agora
     //    |      (Em caso de erro, codigo 9)
-    	itPonto = find_if(provPontos.begin(), provPontos.end(), [ponto](p.id) {p.id == ponto.id;});
+    	itPonto = find_if(provPontos.begin(), provPontos.end(), [p.id](Ponto ponto) {p.id == ponto.id;});
     	if (itPonto != provPontos.end()) throw 9;
     //    | 3.9) Insere o Ponto lido no vetor temporario de Pontos
     	provPontos.push_back(p);
@@ -238,11 +240,10 @@ void Planejador::ler(const std::string& arq_pontos,
     //    "ID;Nome;Extremidade 1;Extremidade 2;Comprimento"
     //    (Em caso de erro ou valor lido diferente, codigo 2)
     //    Consome os separadores apos o cabecalho
-    stream_inRotas >> ws;
-    getline(stream_inRotas, cabecalho);
+    stream_inRotas >> cabecalho;
+    trim(cabecalho);
 
     if (stream_inRotas.fail() || cabecalho != "ID;Nome;Extremidade 1;Extremidade 2;Comprimento") throw 2;
-    stream_inRotas >> ws;
     // 3) Enquanto o arquivo nao acabar (eof), repita a leitura de cada uma das Rotas:
     while (!stream_inRotas.eof()) {
     	Rota r;
@@ -250,29 +251,39 @@ void Planejador::ler(const std::string& arq_pontos,
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 3)
     //    |      O teste se a ID eh valida serah feito ao testar a Rota
     	getline(stream_inRotas, r.id, ';');
+    	trim(r.id);
+    	
     	if (!stream_inRotas || r.id == "") throw 3
     //    | 3.2) Consome os separadores, leh o nome e elimina eventuais separadores no final
     //    |      da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 4)
     //    |      O teste se o nome eh valido serah feito ao testar a Rota
     	getline(stream_inRotas, r.nome, ';');
+    	trim(r.nome);
+    	
     	if (!stream_inRotas || r.nome == "") throw 4;
     //    | 3.3) Consome os separadores, leh a ID da extremidade[0] e elimina eventuais
     //    |      separadores no final da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 5)
     //    |      O teste se a ID eh valida serah feito ao testar a Rota
     	getline(stream_inRotas, r.extremidade[0], ';');
+    	trim(r.extremidade[0]);
+    	
     	if (!stream_inRotas || r.extremidade[0] == "") throw 5;
     //    | 3.4) Consome os separadores, leh a ID da extremidade[1] e elimina eventuais
     //    |      separadores no final da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 6)
-    //    |      O teste se a ID eh valida serah feito ao testar a Rota
+    //    |      O teste se a ID eh valida serah feito ao testar a Rota 
     	getline(stream_inRotas, r.extremidade[1], ';');
+    	trim(r.extremidade[1]);
+    	
     	if (!stream_inRotas || r.extremidade[1] == "") throw 6;
     //    | 3.5) Leh o comprimento
     //    |      (Em caso de erro na leitura, codigo 7)
     //    |      O teste se o comprimento eh valido serah feito ao testar o Ponto
     	getline(stream_inRotas, r.comprimento, ';');
+    	trim(r.comprimento);
+    	
     	if (!stream_inRotas || r.comprimento == "") throw 7;
     //    | 3.6) Consome os separadores apos a Rota
     	stream_inRotas >> ws;
@@ -292,7 +303,7 @@ void Planejador::ler(const std::string& arq_pontos,
     //    | 3.10)Testa que nao existe Rota com a mesma ID no vetor temporario
     //    |      de Rotas lidas ateh agora
     //    |      (Em caso de erro, codigo 11)
-    	itRota = find(provRotas.begin(), provRotas.end(), (rota)[r.id]{rota.id == r.id}])
+    	itRota = find(provRotas.begin(), provRotas.end(), (r)[Rota rota]{rota.id == r.id;});
     	if (itRota != provRotas.end()) throw 11;
     //    | 3.11)Insere a Rota lida no vetor temporario de Rotas
     	provRotas.push_back(r);
@@ -315,8 +326,8 @@ void Planejador::ler(const std::string& arq_pontos,
 
   // Faz os vetores de Pontos e Rotas do planejador assumirem o conteudo dos
   // vetores temporarios de Pontos e Rotas
-  rotas = provRotas;
-  pontos = provPontos;
+  rotas = move(provRotas);
+  pontos = move(provPontos);
   /* ***********  /
   /  FALTA FAZER  /
   /  *********** */

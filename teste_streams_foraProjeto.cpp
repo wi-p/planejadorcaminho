@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 using namespace std;
 
@@ -21,7 +22,7 @@ int main()
     */
     
     getline(arq, linha,';');
-    cout << "linha:" << linha << "Borda" << endl;
+    cout << "linha:" << linha << "Borda" << typeid(linha).name() << endl;
     arq >> ws;
     getline(arq, linha, ';');
     cout << "linha:" << linha << "Borda" << endl;
