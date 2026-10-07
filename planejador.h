@@ -157,6 +157,8 @@ struct Rota
 using Trecho = std::pair<IDRota,IDPonto>;
 using Caminho = std::deque<Trecho>;
 
+// perguntar se a classe caminho deve ser implementada
+
 /* *************************
    * CLASSE PLANEJADOR     *
    ************************* */

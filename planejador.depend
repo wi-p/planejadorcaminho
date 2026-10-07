@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1790798547 source:c:\users\alex.vale.124.ufrn\downloads\planejadorcaminho-main\planejadorcaminho-main\planejador-main.cpp
+	<iostream>
+	<chrono>
+	"planejador.h"
+
+1791318756 c:\users\alex.vale.124.ufrn\downloads\planejadorcaminho-main\planejadorcaminho-main\planejador.h
+	<string>
+	<iostream>
+	<utility>
+	<deque>
+	<vector>
+
