@@ -293,7 +293,8 @@ void Planejador::ler(const std::string& arq_pontos,
     //    | 3.8) Testa que a Id da extremidade[0] corresponde a um ponto lido
     //    |      no vetor temporario de Pontos
     //    |      (Em caso de erro, codigo 9)
-    	itRota = find(provPontos.begin(), provPontos.end(), r.extremidade[0]);
+    	itRota = find_if(provPontos.begin(), provPontos.end(), [r](Rota rota){ r.extremidade[0] == rota.ex
+		});
     	if (itRota == provPontos.end()) throw 9;
     //    | 3.9) Testa que a Id da extremidade[1] corresponde a um ponto lido
     //    |      no vetor temporario de Pontos

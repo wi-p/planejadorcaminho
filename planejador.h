@@ -99,6 +99,11 @@ struct Ponto
 
   // Sobrecarga de operadores
   // Utilizados pelos algoritmos STL
+  
+  // operador de igualdade
+  friend bool operator==(const Ponto &PA, const Ponto &PB) {
+  	return (PA.id == PB.id);
+  }
   /* ***********  /
   /  FALTA FAZER  /
   /  *********** */
