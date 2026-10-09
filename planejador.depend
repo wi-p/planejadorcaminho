@@ -11,3 +11,15 @@
 	<deque>
 	<vector>
 
+1791578497 source:c:\users\alex.vale.124\downloads\planejadorcaminho-main\teste.cpp
+	<iostream>
+	<string>
+	"planejador.h"
+
+1791586734 c:\users\alex.vale.124\downloads\planejadorcaminho-main\planejador.h
+	<string>
+	<iostream>
+	<utility>
+	<deque>
+	<vector>
+

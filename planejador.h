@@ -28,9 +28,14 @@ public:
     return (t.size()>=2 && t[0]=='#');
   }
   // Comparacao
-  friend bool operator==(const IDPonto& ID1, const IDPonto& ID2)
+  friend inline bool operator==(const IDPonto& ID1, const IDPonto& ID2)
   {
     return ID1.t==ID2.t;
+  }
+
+  friend inline bool operator!=(const IDPonto& ID1, const IDPonto& ID2)
+  {
+    return ID1.t!=ID2.t;
   }
   // Impressao
   friend std::ostream& operator<<(std::ostream& X, const IDPonto& ID)
@@ -59,10 +64,16 @@ public:
   {
     return (t.size()>=2 && t[0]=='&');
   }
+
   // Comparacao
-  friend bool operator==(const IDRota& ID1, const IDRota& ID2)
+  friend inline bool operator==(const IDRota& ID1, const IDRota& ID2)
   {
     return ID1.t==ID2.t;
+  }
+
+  friend inline bool operator!=(const IDRota& ID1, const IDRota& ID2)
+  {
+    return ID1.t!=ID2.t;
   }
   // Impressao
   friend std::ostream& operator<<(std::ostream& X, const IDRota& ID)

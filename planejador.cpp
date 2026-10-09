@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm> // find(), sort(), etc
 #include <utility>
+#include <vector>
 /* ACRESCENTE SE NECESSARIO */
 
 
@@ -158,31 +159,35 @@ void Planejador::ler(const std::string& arq_pontos,
     // 3) Enquanto o arquivo nao acabar (eof), repita a leitura de cada um dos Pontos:
     while (!stream_inPontos.eof()) {
     	Ponto p;
+    	string valor;
     	char c;
 
     //    | 3.1) Leh a ID e elimina eventuais separadores no final da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 3)
     //    |      O teste se a ID eh valida serah feito ao testar o Ponto
-    	getline(stream_inPontos, p.id, ';');
-    	trim(p.id);
+    	getline(stream_inPontos, valor, ';');
+    	trim(valor);
 
-    	if (!stream_inPontos || p.id == "" ) throw 3;
+    	if (!stream_inPontos || valor == "" ) throw 3;
+    	p.id.set(move(valor));
     //    | 3.2) Consome os separadores, leh o nome e elimina eventuais separadores no final
     //    |      da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 4)
     //    |      O teste se o nome eh valido serah feito ao testar o Ponto
 
-		getline(stream_inPontos, p.nome, ';');
-		trim(p.nome);
+		getline(stream_inPontos, valor, ';');
+		trim(valor);
 
-		if (!stream_inPontos || p.nome == "") throw 4;
+		if (!stream_inPontos || valor == "") throw 4;
+		p.nome = move(valor);
     //    | 3.3) Leh a latitude
     //    |      (Em caso de erro, codigo 5)
     //    |      O teste se a latitude eh valida serah feito ao testar o Ponto
-    	getline(stream_inPontos, p.latitude, ";");
-    	trim(p.latitude);
+    	getline(stream_inPontos, valor, ";");
+    	trim(valor);
 
-    	if (!stream_inPontos || p.latitude == "") throw 5;
+    	if (!stream_inPontos || valor == "") throw 5;
+    	p.latitude = move(valor);
     //    | 3.4) Leh o caractere ';'
     //    |      (Em caso de erro ou valor lido diferente, codigo 6)
     	c = stream_inPontos.get();
