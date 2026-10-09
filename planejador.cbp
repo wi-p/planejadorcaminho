@@ -20,9 +20,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="planejador-main.cpp" />
 		<Unit filename="planejador.cpp" />
 		<Unit filename="planejador.h" />
+		<Unit filename="teste.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

@@ -152,20 +152,20 @@ void Planejador::ler(const std::string& arq_pontos,
     //    (Em caso de erro ou valor lido diferente, codigo 2)
     stream_inPontos >> cabecalho; // consome enventuais delimitadores
     trim(cabecalho);//    Consome os separadores apos o cabecalho
-    
-    if (stream_inPontos.fail() || cabecalho != "ID;Nome;Latitude;Longitude") throw 2;	
+
+    if (stream_inPontos.fail() || cabecalho != "ID;Nome;Latitude;Longitude") throw 2;
 
     // 3) Enquanto o arquivo nao acabar (eof), repita a leitura de cada um dos Pontos:
     while (!stream_inPontos.eof()) {
     	Ponto p;
     	char c;
-    	
+
     //    | 3.1) Leh a ID e elimina eventuais separadores no final da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 3)
     //    |      O teste se a ID eh valida serah feito ao testar o Ponto
     	getline(stream_inPontos, p.id, ';');
-    	trim(p.id);    	    	
-    	
+    	trim(p.id);
+
     	if (!stream_inPontos || p.id == "" ) throw 3;
     //    | 3.2) Consome os separadores, leh o nome e elimina eventuais separadores no final
     //    |      da string
@@ -174,14 +174,14 @@ void Planejador::ler(const std::string& arq_pontos,
 
 		getline(stream_inPontos, p.nome, ';');
 		trim(p.nome);
-		
+
 		if (!stream_inPontos || p.nome == "") throw 4;
     //    | 3.3) Leh a latitude
     //    |      (Em caso de erro, codigo 5)
     //    |      O teste se a latitude eh valida serah feito ao testar o Ponto
     	getline(stream_inPontos, p.latitude, ";");
     	trim(p.latitude);
-    	
+
     	if (!stream_inPontos || p.latitude == "") throw 5;
     //    | 3.4) Leh o caractere ';'
     //    |      (Em caso de erro ou valor lido diferente, codigo 6)
@@ -252,7 +252,7 @@ void Planejador::ler(const std::string& arq_pontos,
     //    |      O teste se a ID eh valida serah feito ao testar a Rota
     	getline(stream_inRotas, r.id, ';');
     	trim(r.id);
-    	
+
     	if (!stream_inRotas || r.id == "") throw 3
     //    | 3.2) Consome os separadores, leh o nome e elimina eventuais separadores no final
     //    |      da string
@@ -260,7 +260,7 @@ void Planejador::ler(const std::string& arq_pontos,
     //    |      O teste se o nome eh valido serah feito ao testar a Rota
     	getline(stream_inRotas, r.nome, ';');
     	trim(r.nome);
-    	
+
     	if (!stream_inRotas || r.nome == "") throw 4;
     //    | 3.3) Consome os separadores, leh a ID da extremidade[0] e elimina eventuais
     //    |      separadores no final da string
@@ -268,22 +268,22 @@ void Planejador::ler(const std::string& arq_pontos,
     //    |      O teste se a ID eh valida serah feito ao testar a Rota
     	getline(stream_inRotas, r.extremidade[0], ';');
     	trim(r.extremidade[0]);
-    	
+
     	if (!stream_inRotas || r.extremidade[0] == "") throw 5;
     //    | 3.4) Consome os separadores, leh a ID da extremidade[1] e elimina eventuais
     //    |      separadores no final da string
     //    |      (Em caso de erro ou conteudo lido vazio, codigo 6)
-    //    |      O teste se a ID eh valida serah feito ao testar a Rota 
+    //    |      O teste se a ID eh valida serah feito ao testar a Rota
     	getline(stream_inRotas, r.extremidade[1], ';');
     	trim(r.extremidade[1]);
-    	
+
     	if (!stream_inRotas || r.extremidade[1] == "") throw 6;
     //    | 3.5) Leh o comprimento
     //    |      (Em caso de erro na leitura, codigo 7)
     //    |      O teste se o comprimento eh valido serah feito ao testar o Ponto
     	getline(stream_inRotas, r.comprimento, ';');
     	trim(r.comprimento);
-    	
+
     	if (!stream_inRotas || r.comprimento == "") throw 7;
     //    | 3.6) Consome os separadores apos a Rota
     	stream_inRotas >> ws;
@@ -293,18 +293,17 @@ void Planejador::ler(const std::string& arq_pontos,
     //    | 3.8) Testa que a Id da extremidade[0] corresponde a um ponto lido
     //    |      no vetor temporario de Pontos
     //    |      (Em caso de erro, codigo 9)
-    	itRota = find_if(provPontos.begin(), provPontos.end(), [r](Rota rota){ r.extremidade[0] == rota.ex
-		});
+    	itRota = find_if(provPontos.begin(), provPontos.end(), [r](Rota rota){ r.extremidade[0] == rota.extremidade[0];});
     	if (itRota == provPontos.end()) throw 9;
     //    | 3.9) Testa que a Id da extremidade[1] corresponde a um ponto lido
     //    |      no vetor temporario de Pontos
     //    |      (Em caso de erro, codigo 10)
-    	itRota = find(provPontos.begin(), provPontos.end(), r.extremidade[1]);
+    	itRota = find_if(provPontos.begin(), provPontos.end(), [r](Rota rota){r.extremidade[1] == rota.extremidade[1]});
     	if (itRota == provPontos.end()) throw 10;
     //    | 3.10)Testa que nao existe Rota com a mesma ID no vetor temporario
     //    |      de Rotas lidas ateh agora
     //    |      (Em caso de erro, codigo 11)
-    	itRota = find(provRotas.begin(), provRotas.end(), (r)[Rota rota]{rota.id == r.id;});
+    	itRota = find_if(provRotas.begin(), provRotas.end(), (r)[Rota rota]{rota.id == r.id;});
     	if (itRota != provRotas.end()) throw 11;
     //    | 3.11)Insere a Rota lida no vetor temporario de Rotas
     	provRotas.push_back(r);
@@ -334,106 +333,3 @@ void Planejador::ler(const std::string& arq_pontos,
   /  *********** */
 }
 
-/// Retorna um Ponto do mapa, passando a id como parametro.
-/// Se a id for inexistente, gera excecao.
-/// Deve receber ACRESCIMOS
-Ponto Planejador::getPonto(const IDPonto& Id) const
-{
-  // Procura um ponto que corresponde aa Id do parametro
-  /* ***********  /
-  /  FALTA FAZER  /
-  /  *********** */
-  // Em caso de sucesso, retorna o ponto encontrado
-  /* ***********  /
-  /  FALTA FAZER  /
-  /  *********** */
-  // Se nao encontrou, gera excecao
-  throw invalid_argument("getPonto: invalid IDPonto parameter");
-}
-
-/// Retorna um Rota do mapa, passando a id como parametro.
-/// Se a id for inexistente, gera excecao.
-/// Deve receber ACRESCIMOS
-Rota Planejador::getRota(const IDRota& Id) const
-{
-  // Procura uma rota que corresponde aa Id do parametro
-  /* ***********  /
-  /  FALTA FAZER  /
-  /  *********** */
-  // Em caso de sucesso, retorna a rota encontrada
-  /* ***********  /
-  /  FALTA FAZER  /
-  /  *********** */
-  // Se nao encontrou, gera excecao
-  throw invalid_argument("getRota: invalid IDRota parameter");
-}
-
-/// *******************************************************************************
-/// Calcula o caminho entre a origem e o destino do planejador usando o algoritmo A*
-/// *******************************************************************************
-
-/// Noh: struct/classe dos elementos dos conjuntos de busca do algoritmo A*.
-/// Deve ser DECLARADA E IMPLEMENTADA inteiramente.
-/* ***********  /
-/  FALTA FAZER  /
-/  *********** */
-
-/// Calcula o caminho mais curto no mapa entre origem e destino, usando o algoritmo A*
-/// Retorna o comprimento do caminho encontrado (<0 se nao existe caminho).
-/// O parametro C retorna o caminho encontrado (vazio se nao existe caminho).
-/// O parametro NumAberto retorna o numero de nos (>=0) em Aberto ao termino do algoritmo A*,
-/// mesmo quando nao existe caminho.
-/// O parametro NumFechado retorna o numero de nos (>=0) em Fechado ao termino do algoritmo A*,
-/// mesmo quando nao existe caminho.
-/// Em caso de parametros de entrada invalidos ou de erro no algoritmo, gera excecao.
-/// Deve receber ACRESCIMOS.
-double Planejador::calculaCaminho(const IDPonto& id_origem,
-                                  const IDPonto& id_destino,
-                                  Caminho& C, int& NumAberto, int& NumFechado)
-{
-  // Comprimento total do caminho encontrado, a ser retornado pela funcao calculaCaminho.
-  // Inicializado com valor -1, que significa caminho nao encontrado.
-  // Ao termino do algoritmo, deve passar a conter o valor correto.
-  double Compr = -1.0;
-  // Zera o caminho resultado.
-  // Ao termino do algoritmo, deve passar a conter o valor correto.
-  C.clear();
-  // Atribui valores invalidos no numero de nohs calculados.
-  // Ao termino do algoritmo, deve passar a conter o valor correto.
-  NumAberto = NumFechado = -1;
-
-  try
-  {
-    // Mapa vazio
-    if (empty()) throw 1;
-
-    Ponto pt_origem, pt_destino;
-    // Calcula os pontos que correspondem a id_origem e id_destino.
-    // Se algum nao existir, throw 2
-    try
-    {
-      pt_origem = getPonto(id_origem);
-      pt_destino = getPonto(id_destino);
-    }
-    catch(...)
-    {
-      throw 2;
-    }
-
-    /* *****************************  /
-    /  IMPLEMENTACAO DO ALGORITMO A*  /
-    /  ***************************** */
-
-    /* ***********  /
-    /  FALTA FAZER  /
-    /  *********** */
-  }
-  catch(int i)
-  {
-    string msg_err = "Erro " + to_string(i) + " no calculo do caminho\n";
-    throw invalid_argument(msg_err);
-  }
-
-  // Retorna o comprimento calculado para o caminho
-  return Compr;
-}

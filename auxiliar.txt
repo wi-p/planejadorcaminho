@@ -1,0 +1,103 @@
+/// Retorna um Ponto do mapa, passando a id como parametro.
+/// Se a id for inexistente, gera excecao.
+/// Deve receber ACRESCIMOS
+Ponto Planejador::getPonto(const IDPonto& Id) const
+{
+  // Procura um ponto que corresponde aa Id do parametro
+  /* ***********  /
+  /  FALTA FAZER  /
+  /  *********** */
+  // Em caso de sucesso, retorna o ponto encontrado
+  /* ***********  /
+  /  FALTA FAZER  /
+  /  *********** */
+  // Se nao encontrou, gera excecao
+  throw invalid_argument("getPonto: invalid IDPonto parameter");
+}
+
+/// Retorna um Rota do mapa, passando a id como parametro.
+/// Se a id for inexistente, gera excecao.
+/// Deve receber ACRESCIMOS
+Rota Planejador::getRota(const IDRota& Id) const
+{
+  // Procura uma rota que corresponde aa Id do parametro
+  /* ***********  /
+  /  FALTA FAZER  /
+  /  *********** */
+  // Em caso de sucesso, retorna a rota encontrada
+  /* ***********  /
+  /  FALTA FAZER  /
+  /  *********** */
+  // Se nao encontrou, gera excecao
+  throw invalid_argument("getRota: invalid IDRota parameter");
+}
+
+/// *******************************************************************************
+/// Calcula o caminho entre a origem e o destino do planejador usando o algoritmo A*
+/// *******************************************************************************
+
+/// Noh: struct/classe dos elementos dos conjuntos de busca do algoritmo A*.
+/// Deve ser DECLARADA E IMPLEMENTADA inteiramente.
+/* ***********  /
+/  FALTA FAZER  /
+/  *********** */
+
+/// Calcula o caminho mais curto no mapa entre origem e destino, usando o algoritmo A*
+/// Retorna o comprimento do caminho encontrado (<0 se nao existe caminho).
+/// O parametro C retorna o caminho encontrado (vazio se nao existe caminho).
+/// O parametro NumAberto retorna o numero de nos (>=0) em Aberto ao termino do algoritmo A*,
+/// mesmo quando nao existe caminho.
+/// O parametro NumFechado retorna o numero de nos (>=0) em Fechado ao termino do algoritmo A*,
+/// mesmo quando nao existe caminho.
+/// Em caso de parametros de entrada invalidos ou de erro no algoritmo, gera excecao.
+/// Deve receber ACRESCIMOS.
+double Planejador::calculaCaminho(const IDPonto& id_origem,
+                                  const IDPonto& id_destino,
+                                  Caminho& C, int& NumAberto, int& NumFechado)
+{
+  // Comprimento total do caminho encontrado, a ser retornado pela funcao calculaCaminho.
+  // Inicializado com valor -1, que significa caminho nao encontrado.
+  // Ao termino do algoritmo, deve passar a conter o valor correto.
+  double Compr = -1.0;
+  // Zera o caminho resultado.
+  // Ao termino do algoritmo, deve passar a conter o valor correto.
+  C.clear();
+  // Atribui valores invalidos no numero de nohs calculados.
+  // Ao termino do algoritmo, deve passar a conter o valor correto.
+  NumAberto = NumFechado = -1;
+
+  try
+  {
+    // Mapa vazio
+    if (empty()) throw 1;
+
+    Ponto pt_origem, pt_destino;
+    // Calcula os pontos que correspondem a id_origem e id_destino.
+    // Se algum nao existir, throw 2
+    try
+    {
+      pt_origem = getPonto(id_origem);
+      pt_destino = getPonto(id_destino);
+    }
+    catch(...)
+    {
+      throw 2;
+    }
+
+    /* *****************************  /
+    /  IMPLEMENTACAO DO ALGORITMO A*  /
+    /  ***************************** */
+
+    /* ***********  /
+    /  FALTA FAZER  /
+    /  *********** */
+  }
+  catch(int i)
+  {
+    string msg_err = "Erro " + to_string(i) + " no calculo do caminho\n";
+    throw invalid_argument(msg_err);
+  }
+
+  // Retorna o comprimento calculado para o caminho
+  return Compr;
+}
